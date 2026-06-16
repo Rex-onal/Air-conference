@@ -1,96 +1,94 @@
-const sqlite3 = require('sqlite3').verbose();
+const { Pool } = require('pg');
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join(__dirname, 'data', 'database.sqlite');
+const connectionString = process.env.DATABASE_URL;
 
-// Ensure parent data directory exists
-const dir = path.dirname(dbPath);
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir, { recursive: true });
+if (!connectionString) {
+  console.warn('WARNING: DATABASE_URL environment variable is not defined. Neon PostgreSQL client will use local defaults.');
 }
 
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Error opening SQLite database:', err);
-  } else {
-    console.log(`SQLite database successfully opened at: ${dbPath}`);
-  }
+const pool = new Pool({
+  connectionString,
+  ssl: connectionString && connectionString.includes('neon.tech')
+    ? { rejectUnauthorized: false }
+    : false
 });
 
+// Helper to convert SQLite '?' parameters to PostgreSQL '$1', '$2', etc.
+function convertSql(sql) {
+  let index = 1;
+  return sql.replace(/\?/g, () => `$${index++}`);
+}
+
 // Promise wrappers for database queries
-const run = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.run(sql, params, function (err) {
-      if (err) reject(err);
-      else resolve({ id: this.lastID, changes: this.changes });
-    });
-  });
+const run = async (sql, params = []) => {
+  const pgSql = convertSql(sql);
+  const res = await pool.query(pgSql, params);
+  return { 
+    id: res.rows[0]?.id || null, 
+    changes: res.rowCount 
+  };
 };
 
-const all = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.all(sql, params, (err, rows) => {
-      if (err) reject(err);
-      else resolve(rows);
-    });
-  });
+const all = async (sql, params = []) => {
+  const pgSql = convertSql(sql);
+  const res = await pool.query(pgSql, params);
+  return res.rows;
 };
 
-const get = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.get(sql, params, (err, row) => {
-      if (err) reject(err);
-      else resolve(row);
-    });
-  });
+const get = async (sql, params = []) => {
+  const pgSql = convertSql(sql);
+  const res = await pool.query(pgSql, params);
+  return res.rows[0] || null;
 };
 
 // Initialize schema and run seeder migrations
 const initDb = async () => {
   try {
     // 1. Create registrations table
-    await run(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS registrations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        company TEXT,
-        role TEXT,
-        ticketType TEXT NOT NULL,
-        registrationCode TEXT NOT NULL UNIQUE,
-        registeredAt TEXT NOT NULL
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        company VARCHAR(255),
+        role VARCHAR(255),
+        ticketType VARCHAR(50) NOT NULL,
+        registrationCode VARCHAR(50) NOT NULL UNIQUE,
+        registeredAt VARCHAR(100) NOT NULL
       )
     `);
 
     // 2. Create contacts table
-    await run(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS contacts (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL,
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
         message TEXT NOT NULL,
-        submittedAt TEXT NOT NULL
+        submittedAt VARCHAR(100) NOT NULL
       )
     `);
 
-    console.log('SQLite schemas verified.');
+    console.log('PostgreSQL schemas verified.');
 
     // 3. Migrate Registrations from registrations.json if table is empty
     const regCountRow = await get('SELECT COUNT(*) as count FROM registrations');
-    if (regCountRow.count === 0) {
+    if (parseInt(regCountRow.count || '0') === 0) {
       const jsonFile = path.join(__dirname, 'data', 'registrations.json');
       if (fs.existsSync(jsonFile)) {
-        console.log('Found legacy registrations.json. Starting migration to SQLite...');
+        console.log('Found legacy registrations.json. Starting migration to PostgreSQL...');
         const fileContent = fs.readFileSync(jsonFile, 'utf8');
         const legacyData = JSON.parse(fileContent || '[]');
         
         for (const item of legacyData) {
           try {
-            await run(
-              `INSERT OR IGNORE INTO registrations 
+            await pool.query(
+              `INSERT INTO registrations 
                (name, email, company, role, ticketType, registrationCode, registeredAt) 
-               VALUES (?, ?, ?, ?, ?, ?, ?)`,
+               VALUES ($1, $2, $3, $4, $5, $6, $7) 
+               ON CONFLICT (email) DO NOTHING`,
               [
                 item.name, 
                 item.email, 
@@ -106,7 +104,7 @@ const initDb = async () => {
           }
         }
         
-        console.log(`Successfully migrated ${legacyData.length} records to SQLite database.`);
+        console.log(`Successfully migrated ${legacyData.length} records to PostgreSQL database.`);
         // Archive JSON file
         fs.renameSync(jsonFile, `${jsonFile}.bak`);
         console.log(`Archived ${jsonFile} to registrations.json.bak`);
@@ -115,20 +113,20 @@ const initDb = async () => {
 
     // 4. Migrate Contacts from contact.json if table is empty
     const contactCountRow = await get('SELECT COUNT(*) as count FROM contacts');
-    if (contactCountRow.count === 0) {
+    if (parseInt(contactCountRow.count || '0') === 0) {
       const jsonFile = path.join(__dirname, 'data', 'contact.json');
       if (fs.existsSync(jsonFile)) {
-        console.log('Found legacy contact.json. Starting migration to SQLite...');
+        console.log('Found legacy contact.json. Starting migration to PostgreSQL...');
         const fileContent = fs.readFileSync(jsonFile, 'utf8');
         const legacyData = JSON.parse(fileContent || '[]');
         
         for (const item of legacyData) {
-          await run(
-            `INSERT INTO contacts (name, email, message, submittedAt) VALUES (?, ?, ?, ?)`,
+          await pool.query(
+            `INSERT INTO contacts (name, email, message, submittedAt) VALUES ($1, $2, $3, $4)`,
             [item.name, item.email, item.message, item.submittedAt || new Date().toISOString()]
           );
         }
-        console.log(`Successfully migrated ${legacyData.length} contacts to SQLite database.`);
+        console.log(`Successfully migrated ${legacyData.length} contacts to PostgreSQL database.`);
         // Archive JSON file
         fs.renameSync(jsonFile, `${jsonFile}.bak`);
         console.log(`Archived ${jsonFile} to contact.json.bak`);
@@ -141,7 +139,7 @@ const initDb = async () => {
 };
 
 module.exports = {
-  db,
+  pool,
   run,
   all,
   get,
