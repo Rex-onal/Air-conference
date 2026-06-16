@@ -27,7 +27,20 @@ export const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+  const getApiBaseUrl = (): string => {
+    const envUrl = import.meta.env.VITE_API_BASE_URL;
+    if (!envUrl) return 'http://localhost:5000/api';
+    let url = envUrl.trim();
+    if (!/^https?:\/\//i.test(url) && !url.startsWith('/')) {
+      url = 'https://' + url;
+    }
+    if (!/\/api\/?$/i.test(url)) {
+      url = url.replace(/\/$/, '') + '/api';
+    }
+    return url;
+  };
+
+  const API_BASE_URL = getApiBaseUrl();
 
   const fetchRegistrations = useCallback(async () => {
     setLoading(true);

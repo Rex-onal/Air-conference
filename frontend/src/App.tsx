@@ -223,7 +223,20 @@ export default function App() {
   // Toast Notifications
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+  const getApiBaseUrl = (): string => {
+    const envUrl = import.meta.env.VITE_API_BASE_URL;
+    if (!envUrl) return 'http://localhost:5000/api';
+    let url = envUrl.trim();
+    if (!/^https?:\/\//i.test(url) && !url.startsWith('/')) {
+      url = 'https://' + url;
+    }
+    if (!/\/api\/?$/i.test(url)) {
+      url = url.replace(/\/$/, '') + '/api';
+    }
+    return url;
+  };
+
+  const API_BASE_URL = getApiBaseUrl();
 
   const triggerToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, type });
