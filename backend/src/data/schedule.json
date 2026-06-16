@@ -1,0 +1,47 @@
+[
+  {
+    "id": "session-1",
+    "time": "09:00 AM - 10:00 AM",
+    "title": "Opening & Keynote: AI as the Next Frontier for African Sovereignty",
+    "description": "Opening remarks followed by a powerful keynote addressing the role of AI in shaping economic self-determination, retaining local talent, and drafting sovereign AI frameworks across African nations.",
+    "track": "Policy & Vision",
+    "venue": "Eko Grand Ballroom",
+    "speakers": ["fatima-al-hassan"]
+  },
+  {
+    "id": "session-2",
+    "time": "10:30 AM - 12:00 PM",
+    "title": "Panel Discussion: Scaling AI Infrastructure Under Local Grid Constraints",
+    "description": "A collaborative panel discussing hardware engineering, Edge AI, and offline-first model architectures tailored to navigate electricity grid fluctuations and internet bandwidth challenges in sub-Saharan Africa.",
+    "track": "Infrastructure & Systems",
+    "venue": "Lagos Tech Hall",
+    "speakers": ["tunde-bakare", "kofi-mensah", "zola-nkosi"]
+  },
+  {
+    "id": "session-3",
+    "time": "01:30 PM - 02:45 PM",
+    "title": "Technical Deep Dive: Multi-Dialect LLMs for Low-Resource Languages",
+    "description": "Exploration of transfer learning, synthetic data generation, and specialized tokenizers designed to bring high-accuracy NLP services to speakers of regional African languages.",
+    "track": "Technical Track",
+    "venue": "Eko Grand Ballroom",
+    "speakers": ["chinonso-ezenwa"]
+  },
+  {
+    "id": "session-4",
+    "time": "03:00 PM - 04:15 PM",
+    "title": "Fireside Chat: AI in Climate Diagnostics & West African Agriculture",
+    "description": "A close-up conversation detailing the deployment of computer vision and satellite telemetry analysis to mitigate harvest risks, track water distribution, and support smallholder farmers.",
+    "track": "Applications & Impact",
+    "venue": "Lagos Tech Hall",
+    "speakers": ["amara-diop"]
+  },
+  {
+    "id": "session-5",
+    "time": "04:30 PM - 06:00 PM",
+    "title": "Networking Mixer & Lagos AI Pitch Finale",
+    "description": "Closing announcements followed by the Pitch Finale showcasing 5 emergent African AI startups, leading into an evening networking and cocktail reception.",
+    "track": "Community & Ecosystem",
+    "venue": "Terrace Garden & Lounge",
+    "speakers": []
+  }
+]

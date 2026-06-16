@@ -1,0 +1,74 @@
+[
+  {
+    "id": "chinonso-ezenwa",
+    "name": "Dr. Chinonso Ezenwa",
+    "role": "Chief AI Architect",
+    "organization": "AfroMind Labs",
+    "location": "Lagos, Nigeria",
+    "bio": "Pioneering research in low-resource African language models (NLP), helping bridge the digital divide for millions of speakers of Yoruba, Igbo, and Hausa.",
+    "category": "Keynote",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    "linkedin": "https://linkedin.com/in/chinonso-ezenwa-mock",
+    "twitter": "https://twitter.com/chinonso_mock"
+  },
+  {
+    "id": "amara-diop",
+    "name": "Amara Diop",
+    "role": "Senior AI Researcher",
+    "organization": "Mila / AI Senegal",
+    "location": "Dakar, Senegal",
+    "bio": "Leading development in computer vision systems for precision agriculture in West Africa. Expert in satellite imagery processing and crop disease diagnostics.",
+    "category": "Technical Session",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
+    "linkedin": "https://linkedin.com/in/amara-diop-mock",
+    "twitter": "https://twitter.com/amara_mock"
+  },
+  {
+    "id": "kofi-mensah",
+    "name": "Kofi Mensah",
+    "role": "Director of Data Science",
+    "organization": "Paystack",
+    "location": "Lagos, Nigeria",
+    "bio": "Spearheading FinTech security using deep learning models for real-time transaction monitoring and anomaly detection across sub-Saharan financial pipelines.",
+    "category": "Panelist",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+    "linkedin": "https://linkedin.com/in/kofi-mensah-mock",
+    "twitter": "https://twitter.com/kofi_mock"
+  },
+  {
+    "id": "fatima-al-hassan",
+    "name": "Prof. Fatima Al-Hassan",
+    "role": "Chair of Cognitive Computing",
+    "organization": "University of Ibadan",
+    "location": "Ibadan, Nigeria",
+    "bio": "Distinguished academic researching AI ethics, policy, and national AI strategies to foster local talent and retain ownership of intellectual properties in Africa.",
+    "category": "Keynote",
+    "avatar": "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=400&h=400&fit=crop",
+    "linkedin": "https://linkedin.com/in/fatima-alhassan-mock",
+    "twitter": "https://twitter.com/fatima_mock"
+  },
+  {
+    "id": "tunde-bakare",
+    "name": "Tunde Bakare",
+    "role": "Founder & CTO",
+    "organization": "Lagos Robotics",
+    "location": "Lagos, Nigeria",
+    "bio": "Pioneering affordable Edge AI devices and computer vision hardware designed to operate under local power constraints and off-grid scenarios.",
+    "category": "Technical Session",
+    "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop",
+    "linkedin": "https://linkedin.com/in/tunde-bakare-mock",
+    "twitter": "https://twitter.com/tunde_mock"
+  },
+  {
+    "id": "zola-nkosi",
+    "name": "Zola Nkosi",
+    "role": "Director of Technology Policy",
+    "organization": "African AI Forum",
+    "location": "Johannesburg, South Africa",
+    "bio": "Advising governments and continental bodies on technology policy, ethical frameworks, and infrastructure development to prepare Africa's youth for the AI economy.",
+    "category": "Panelist",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop",
+    "linkedin": "https://linkedin.com/in/zola-nkosi-mock",
+    "twitter": "https://twitter.com/zola_mock"
+  }
+]

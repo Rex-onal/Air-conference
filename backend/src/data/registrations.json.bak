@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "Test Delegate",
+    "email": "test@delegate.edu",
+    "company": "University of Lagos",
+    "role": "Student",
+    "ticketType": "student",
+    "registrationCode": "AIR-6Q9ZUW",
+    "registeredAt": "2026-06-15T10:31:42.414Z"
+  },
+  {
+    "id": 2,
+    "name": "Akin Obi",
+    "email": "akin.obi@unilag.edu",
+    "company": "University of Lagos",
+    "role": "Student",
+    "ticketType": "student",
+    "registrationCode": "AIR-4XCPVA",
+    "registeredAt": "2026-06-15T10:49:50.592Z"
+  },
+  {
+    "id": 3,
+    "name": "Ngozi Cole",
+    "email": "ngozi@gmail.com",
+    "company": "Independent",
+    "role": "Enthusiast",
+    "ticketType": "vip",
+    "registrationCode": "AIR-THO64L",
+    "registeredAt": "2026-06-15T11:00:00.984Z"
+  },
+  {
+    "id": 4,
+    "name": "Temiloluwa Adesina",
+    "email": "temi@example.com",
+    "company": "AI Nigeria",
+    "role": "Researcher",
+    "ticketType": "standard",
+    "registrationCode": "AIR-4XN17P",
+    "registeredAt": "2026-06-15T13:07:46.963Z"
+  },
+  {
+    "id": 5,
+    "name": "Temiloluwa Adesina",
+    "email": "temi.new@example.com",
+    "company": "AI Nigeria",
+    "role": "Researcher",
+    "ticketType": "standard",
+    "registrationCode": "AIR-LTDZSF",
+    "registeredAt": "2026-06-15T13:22:08.260Z"
+  }
+]
