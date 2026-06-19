@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -5,8 +7,6 @@ const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
 const db = require('./db');
-
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -130,10 +130,10 @@ app.get('/api/admin/registrations', async (req, res, next) => {
     const studentRow = await db.get('SELECT COUNT(*) as count FROM registrations WHERE ticketType = ?', ['student']);
 
     const stats = {
-      total: totalRow ? totalRow.count : 0,
-      standard: standardRow ? standardRow.count : 0,
-      vip: vipRow ? vipRow.count : 0,
-      student: studentRow ? studentRow.count : 0
+      total: totalRow ? parseInt(totalRow.count, 10) : 0,
+      standard: standardRow ? parseInt(standardRow.count, 10) : 0,
+      vip: vipRow ? parseInt(vipRow.count, 10) : 0,
+      student: studentRow ? parseInt(studentRow.count, 10) : 0
     };
 
     res.json({ success: true, data: registrations, stats });
