@@ -58,7 +58,7 @@ export const AdminDashboard: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [API_BASE_URL]);
 
   useEffect(() => {
     if (isAuthenticated) {

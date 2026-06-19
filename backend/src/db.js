@@ -24,10 +24,14 @@ function convertSql(sql) {
 // Promise wrappers for database queries
 const run = async (sql, params = []) => {
   const pgSql = convertSql(sql);
-  const res = await pool.query(pgSql, params);
-  return { 
-    id: res.rows[0]?.id || null, 
-    changes: res.rowCount 
+  const isInsert = pgSql.trim().toUpperCase().startsWith('INSERT');
+  const finalSql = isInsert
+    ? pgSql.replace(/;?\s*$/, ' RETURNING id')
+    : pgSql;
+  const res = await pool.query(finalSql, params);
+  return {
+    id: res.rows[0]?.id || null,
+    changes: res.rowCount
   };
 };
 
